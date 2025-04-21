@@ -1,119 +1,36 @@
-import re
+ How to Run in VS Code (Windows)
+1. ✅ Install GCC Compiler
+Install MinGW or use TDM-GCC
 
-# Opcode and register tables
-opcode_table = {
-    "START": "01",
-    "MOVER": "02",
-    "MOVEM": "03",
-    "ADD": "04",
-    "SUB": "05",
-    "MULT": "06",
-    "JUMP": "07",
-    "END": "08"
-}
+Make sure GCC is added to your PATH. You should be able to run gcc --version in terminal.
 
-register_table = {
-    "AREG": "R1",
-    "BREG": "R2",
-    "CREG": "R3"
-}
+2. ✅ Open VS Code
+Go to File → Open Folder → Select your project folder (e.g., SPCC_EXP)
 
-# Tables and memory setup
-symbol_table = {}
-literal_table = {}
-intermediate_code = []
-machine_code = []
+Inside that folder, create a file: postfix_to_assembly.c
 
-memory_address = 100  # Starting memory location
+3. ✅ Paste the code
+Paste the full code above into postfix_to_assembly.c
 
-# Sample assembly program
-assembly_code = [
-    "START 100",
-    "MOVER AREG, X",
-    "MOVEM AREG, Y",
-    "ADD BREG, ='5'",
-    "L1, SUB CREG, X",
-    "MULT AREG, ='10'",
-    "JUMP L1",
-    "END"
-]
+4. 🧱 Compile the code
+Open the terminal in VS Code (`Ctrl + ``), and run:
 
-# Pass 1: Symbol & Literal table construction
-for line in assembly_code:
-    tokens = re.split(r'[ ,]+', line.strip())
+bash
+Copy
+Edit
+gcc postfix_to_assembly.c -o postfix.exe
+If successful, this will create postfix.exe
 
-    if tokens[0].endswith(","):
-        label = tokens[0][:-1]
-        symbol_table[label] = memory_address
-        tokens = tokens[1:]
+5. ▶️ Run the program
+bash
+Copy
+Edit
+.\postfix.exe
+6. 💡 Example Input & Output
+Input:
 
-    if tokens[0] == "START":
-        memory_address = int(tokens[1])
-        continue
-
-    if tokens[0] == "END":
-        break
-
-    # Add undefined symbols
-    for token in tokens[1:]:
-        if token not in opcode_table and token not in register_table and not token.startswith("='"):
-            if token not in symbol_table:
-                symbol_table[token] = None
-
-    # Handle literals
-    if tokens[-1].startswith("='"):
-        literal = tokens[-1][2:-1]
-        if literal not in literal_table:
-            literal_table[literal] = None
-
-    memory_address += 1
-
-# Assign addresses to symbols
-for symbol in symbol_table:
-    if symbol_table[symbol] is None:
-        symbol_table[symbol] = memory_address
-        memory_address += 1
-
-# Assign addresses to literals
-for literal in literal_table:
-    literal_table[literal] = memory_address
-    memory_address += 1
-
-# Pass 2: Generate Intermediate & Machine Code
-memory_address = 100
-for line in assembly_code:
-    tokens = re.split(r'[ ,]+', line.strip())
-
-    if tokens[0] in ["START", "END"]:
-        continue
-
-    if tokens[0].endswith(","):
-        tokens = tokens[1:]
-
-    opcode = opcode_table[tokens[0]]
-    operand1 = register_table.get(tokens[1], symbol_table.get(tokens[1], ""))
-    operand2 = ""
-
-    if tokens[-1] in symbol_table:
-        operand2 = symbol_table[tokens[-1]]
-    elif tokens[-1].startswith("='"):
-        operand2 = literal_table[tokens[-1][2:-1]]
-
-    intermediate_code.append(f"{memory_address} ({opcode}) {operand1}, {operand2}")
-    machine_code.append(f"{memory_address} {opcode} {operand1} {operand2}")
-    memory_address += 1
-
-# Output Results
-print("Symbol Table:")
-for symbol, address in symbol_table.items():
-    print(f"{symbol} -> {address}")
-
-print("\nLiteral Table:")
-for literal, address in literal_table.items():
-    print(f"='{literal}' -> {address}")
-
-print("\nIntermediate Code:")
-print("\n".join(intermediate_code))
-
-print("\nMachine Code:")
-print("\n".join(machine_code))
+r
+Copy
+Edit
+Enter postfix expression: ab+c*
+Output:
