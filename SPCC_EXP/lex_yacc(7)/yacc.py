@@ -72,3 +72,34 @@ if __name__ == "__main__":
             print(result)
     except (EOFError, KeyboardInterrupt):
         print("\nGoodbye.")
+
+
+
+# How to Run
+# Install PLY (if you haven’t):
+
+# bash
+# Copy
+# Edit
+# pip install ply
+# Save the two files in the same directory:
+
+# lexer.py
+
+# parser.py
+
+# Run the parser (which pulls in the lexer):
+
+# bash
+# Copy
+# Edit
+# python parser.py
+# Type any arithmetic expression at the >>> prompt:
+
+# python-repl
+# Copy
+# Edit
+# >>> 3 + 5 * (10 - 4)
+# 33
+# >>> -7 + 2 * (8 / 4)
+# -3.0
