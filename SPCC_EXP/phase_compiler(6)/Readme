@@ -14,23 +14,15 @@ Paste the full code above into postfix_to_assembly.c
 
 4. 🧱 Compile the code
 Open the terminal in VS Code (`Ctrl + ``), and run:
-
-bash
-Copy
-Edit
 gcc postfix_to_assembly.c -o postfix.exe
 If successful, this will create postfix.exe
 
 5. ▶️ Run the program
-bash
-Copy
-Edit
 .\postfix.exe
+
+
+
 6. 💡 Example Input & Output
 Input:
-
-r
-Copy
-Edit
 Enter postfix expression: ab+c*
 Output:
