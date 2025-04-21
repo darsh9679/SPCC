@@ -1,0 +1,11 @@
+# Enter the Number of Values: 5
+# left: a
+# right: b+c
+# left: b
+# right: d+e
+# left: c
+# right: b+e
+# left: d
+# right: f
+# left: e
+# right: b+c
